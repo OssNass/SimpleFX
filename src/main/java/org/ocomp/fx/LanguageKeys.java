@@ -1,0 +1,22 @@
+package org.ocomp.fx;
+
+public interface LanguageKeys {
+    String LANG_STAGE_TITLE = "STAGE.%s.TITLE";
+
+    String LANG_NAME = "LANG.NAME";
+
+    String LANG_SHORT = "LANG.SHORT";
+
+    String LANG_COUNTRY_SHORT = "LANG.COUNTRY";
+
+    String LANG_LAYOUT_DIRECTION = "LANG.DIR";
+
+    String MESSAGE_TITLE_ERROR = "MESSAGE.TITLE.ERROR";
+
+    String MESSAGE_TITLE_WARNING = "MESSAGE.TITLE.WARNING";
+
+    String MESSAGE_TITLE_INFO = "MESSAGE.TITLE.INFO";
+
+    String MESSAGE_TITLE_CONFIRM = "MESSAGE.TITLE.CONFIRM";
+}
+
