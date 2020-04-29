@@ -7,6 +7,7 @@ import org.ocomp.fx.exceptions.FXMLIDDuplicationException;
 import org.ocomp.fx.exceptions.FXMLNotFoundException;
 import org.reflections.Reflections;
 
+import javax.swing.text.html.CSS;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -23,7 +24,7 @@ import java.util.ResourceBundle;
  * All your controllers are initialized here, and in order to be initialized, each controller
  * must extend {@link SimpleController} and must be annotated with {@link ControllerInfo}
  * <p>
- * The language file defined here in order to pass it to all controllers.
+ * The language and CSS files are defined here in order to pass it to all controllers.
  */
 public class ControlMaster {
 
@@ -33,10 +34,23 @@ public class ControlMaster {
     private HashMap<String, URL> multipleInstances = new HashMap<>();
     private HashMap<String, Class<? extends SimpleController>> controllerClasses = new HashMap<>();
     private ResourceBundle language = null;
-
+    private String cSSPath = null;
 
     private ControlMaster() {
 
+    }
+
+    /**
+     * Returns the extra CSS file to be used by the application
+     *
+     * @return the extra CSS file to be used by the application
+     */
+    public final String getCSSPath() {
+        return cSSPath;
+    }
+
+    protected final void setCSSPath(String cSSPath2) {
+        cSSPath = cSSPath2;
     }
 
     /**
@@ -63,8 +77,19 @@ public class ControlMaster {
         setLanguage(new PropertyResourceBundle(new InputStreamReader(new FileInputStream(lang), StandardCharsets.UTF_8)));
     }
 
-    public void initControlMaster(String languageFile) throws IOException {
+    /**
+     * Initializes the control master.
+     * <p>
+     * Defines the language and CSS file and the controller will scour the class path
+     * for classes extending {@linke SimpleController} and annotated with {@link ControllerInfo}
+     *
+     * @param languageFile the path to the language file cannot be null
+     * @param CSSFile      the path to the CSS file, can be null
+     * @throws IOException in case of error while reading the FXML files
+     */
+    public void initControlMaster(String languageFile, String CSSFile) throws IOException {
         setLanguage(languageFile);
+        setCSSPath(CSSFile);
         findControllers();
     }
 

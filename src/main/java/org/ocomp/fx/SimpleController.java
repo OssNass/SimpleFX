@@ -137,8 +137,12 @@ public abstract class SimpleController {
         if (this.scene != null)
             this.scene.setRoot(null);
         this.scene = scene;
-        if (this.scene != null)
+        if (this.scene != null) {
             this.scene.setRoot(root);
+            if (ControlMaster.getControlMaster().getCSSPath() != null) {
+                scene.getStylesheets().add(ControlMaster.getControlMaster().getCSSPath());
+            }
+        }
         if (this.stage != null)
             stage.setScene(this.scene);
     }
