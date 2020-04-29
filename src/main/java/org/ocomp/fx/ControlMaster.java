@@ -1,6 +1,7 @@
 package org.ocomp.fx;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import org.ocomp.fx.exceptions.FXMLIDDuplicationException;
 import org.ocomp.fx.exceptions.FXMLNotFoundException;
@@ -16,6 +17,14 @@ import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
+/**
+ * The brains behind SimpleFX library.
+ * <p>
+ * All your controllers are initialized here, and in order to be initialized, each controller
+ * must extend {@link SimpleController} and must be annotated with {@link ControllerInfo}
+ * <p>
+ * The language file defined here in order to pass it to all controllers.
+ */
 public class ControlMaster {
 
     private static ControlMaster cm;
@@ -30,7 +39,12 @@ public class ControlMaster {
 
     }
 
-    public static ControlMaster getCm() {
+    /**
+     * Returns the only instance of {@link ControlMaster}
+     *
+     * @return the only instance of {@link ControlMaster}
+     */
+    public static ControlMaster getControlMaster() {
         if (cm == null)
             cm = new ControlMaster();
         return cm;
@@ -92,8 +106,17 @@ public class ControlMaster {
             throw new IllegalArgumentException("Language cannot be null");
         }
         FXMLLoader loader = new FXMLLoader(url, language);
+
         Pane root = loader.load();
-        SimpleController res =(SimpleController) loader.getController();
+        if (loader.getController() == null)
+            try {
+                loader.setController(controllerClasses.get(Id).getConstructors()[0].newInstance(null));
+            } catch (Exception e) {
+                System.out.println(e.getLocalizedMessage());
+            }
+        SimpleController res = (SimpleController) loader.getController();
+        Scene scene = new Scene(res.getRoot());
+        res.setScene(scene);
         return res;
     }
 
@@ -129,6 +152,7 @@ public class ControlMaster {
         Reflections refs = new Reflections();
         for (Class<?> cl : refs.getTypesAnnotatedWith(ControllerInfo.class)) {
             ControllerInfo ci = cl.getAnnotation(ControllerInfo.class);
+
             addController(ci, (Class<? extends SimpleController>) cl);
             System.out.println(ci.FXMLFile());
         }

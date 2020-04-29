@@ -6,6 +6,8 @@ import javafx.scene.Node;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 
+import java.lang.reflect.Method;
+
 /**
  * This class represents the action that can be taken by a keyboard shortcut.
  * <p>
@@ -19,7 +21,7 @@ public class KBShortcut<T extends ActionEvent> {
     protected KeyCombination kbs;
     protected Node node;
     protected EventHandler<T> e;
-
+    protected Method m;
     /**
      * Creating a new Keyboard shortcut
      *
@@ -47,9 +49,7 @@ public class KBShortcut<T extends ActionEvent> {
                 this.e.handle(null);
                 return true;
             }
-            return false;
         }
-
         return false;
     }
 }

@@ -16,7 +16,6 @@ import java.lang.annotation.Target;
  *
  * Type: The type of the controller, used to determine how to load it. Default value is {@link ContollerType#SINGLE_INSTANCE_ON_DEMAND}
  *
- * Icon: A string representing the path to the icon PNG file location with in the application resources folder, used with {@link javafx.stage.Stage}, the default value is empty string.
  */
 public @interface ControllerInfo {
     /**
@@ -39,12 +38,4 @@ public @interface ControllerInfo {
      * @return
      */
     ContollerType Type() default ContollerType.SINGLE_INSTANCE_ON_DEMAND;
-
-    /**
-     * A string representing the path to the icon PNG file location with in the application resources folder,
-     * used with {@link javafx.stage.Stage}.
-     *
-     * @return
-     */
-    String Icon() default "";
 }

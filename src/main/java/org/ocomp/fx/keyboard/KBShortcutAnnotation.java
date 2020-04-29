@@ -12,5 +12,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface KBShortcutAnnotation {
     String shortcut();
-    Class<? extends Node> attachedToNode();
+    String attachedToNode();
 }
