@@ -78,10 +78,19 @@ public class ControlMaster {
     }
 
     /**
+     * Returns the current language file
+     *
+     * @return the current language file
+     */
+    public ResourceBundle getLanguage() {
+        return language;
+    }
+
+    /**
      * Initializes the control master.
      * <p>
      * Defines the language and CSS file and the controller will scour the class path
-     * for classes extending {@linke SimpleController} and annotated with {@link ControllerInfo}
+     * for classes extending {@link SimpleController} and annotated with {@link ControllerInfo}
      *
      * @param languageFile the path to the language file cannot be null
      * @param CSSFile      the path to the CSS file, can be null
@@ -177,9 +186,7 @@ public class ControlMaster {
         Reflections refs = new Reflections();
         for (Class<?> cl : refs.getTypesAnnotatedWith(ControllerInfo.class)) {
             ControllerInfo ci = cl.getAnnotation(ControllerInfo.class);
-
             addController(ci, (Class<? extends SimpleController>) cl);
-            System.out.println(ci.FXMLFile());
         }
     }
 }
