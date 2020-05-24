@@ -31,7 +31,6 @@ import org.ocomp.fx.exceptions.FXMLIDDuplicationException;
 import org.ocomp.fx.exceptions.FXMLNotFoundException;
 import org.reflections.Reflections;
 
-import javax.swing.text.html.CSS;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -56,6 +55,7 @@ public class ControlMaster {
     private HashMap<String, SimpleController> singleInstance_Startup = new HashMap<>();
     private HashMap<String, URL> singleInstance_OnDemand = new HashMap<>();
     private HashMap<String, URL> multipleInstances = new HashMap<>();
+    private HashMap<String, String> icons = new HashMap<>();
     private HashMap<String, Class<? extends SimpleController>> controllerClasses = new HashMap<>();
     private ResourceBundle language = null;
     private String cSSPath = null;
@@ -173,6 +173,7 @@ public class ControlMaster {
                 System.out.println(e.getLocalizedMessage());
             }
         SimpleController res = (SimpleController) loader.getController();
+        res.setIcon(icons.get(Id));
         Scene scene = new Scene(res.getRoot());
         res.setScene(scene);
         return res;
@@ -211,6 +212,7 @@ public class ControlMaster {
         for (Class<?> cl : refs.getTypesAnnotatedWith(ControllerInfo.class)) {
             ControllerInfo ci = cl.getAnnotation(ControllerInfo.class);
             addController(ci, (Class<? extends SimpleController>) cl);
+            icons.put(ci.Id(), ci.Icon());
         }
     }
 }

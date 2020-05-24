@@ -62,4 +62,12 @@ public @interface ControllerInfo {
      * @return
      */
     ContollerType Type() default ContollerType.SINGLE_INSTANCE_ON_DEMAND;
+
+    /**
+     * The name of the icon in the resources dir for the stage
+     *
+     * Optional.
+     * @return
+     */
+    String Icon() default "";
 }

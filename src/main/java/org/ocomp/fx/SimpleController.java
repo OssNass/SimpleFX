@@ -25,25 +25,13 @@ package org.ocomp.fx;
 
 import javafx.fxml.FXML;
 import javafx.geometry.NodeOrientation;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import org.ocomp.fx.exceptions.SceneNotSetException;
 import org.ocomp.fx.keyboard.KBSManager;
-import org.ocomp.fx.keyboard.KBShortcut;
-import org.ocomp.fx.keyboard.KBShortcutAnnotation;
-import org.reflections.Reflections;
 
-import java.io.IOException;
-import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodHandles;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -171,7 +159,7 @@ public abstract class SimpleController {
         }
         this.stage = stage;
         if (this.stage != null) {
-            setIcon();
+            loadIcon();
             setTitle();
             //fixes a bug where the stage size is not calculated properly,
             // because nodes sizes are only calculated when they are shown on the screen
@@ -197,12 +185,17 @@ public abstract class SimpleController {
             stage.setTitle(this.resources.getString(titleKey));
     }
 
-    private void setIcon() {
+    private void loadIcon() {
         if (this.icon != null) {
             this.stage.getIcons().add(new Image(getClass().getResourceAsStream(this.icon)));
         }
     }
 
+    void setIcon(String icon) {
+        if (icon.isEmpty())
+            icon = null;
+        this.icon = icon;
+    }
 
     /**
      * Must be overridden by the user to implement there own initialization

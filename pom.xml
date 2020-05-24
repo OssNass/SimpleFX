@@ -302,6 +302,7 @@
    <build>
       <defaultGoal>clean package install</defaultGoal>
       <plugins>
+
          <plugin>
             <!-- Changes -->
             <!-- Takes care of the changes log -->
@@ -358,6 +359,7 @@
             <!-- It is using a customized rules file -->
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-checkstyle-plugin</artifactId>
+            <version>3.1.1</version>
             <configuration>
                <!-- The customized rules file -->
                <configLocation>${project.basedir}/src/config/checkstyle/checkstyle-rules.xml</configLocation>
@@ -370,6 +372,7 @@
              <!-- Checks for patterns which are prone to errors -->
              <groupId>org.codehaus.mojo</groupId>
              <artifactId>findbugs-maven-plugin</artifactId>
+            <version>3.0.5</version>
              <configuration>
                  <!-- Exclusion patterns -->
                  <excludeFilterFile>${project.basedir}/src/config/findbugs/findbugs-exclude.xml</excludeFilterFile>
@@ -392,6 +395,7 @@
             <!-- Checks that the code complies with a series of code quality rules -->
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-pmd-plugin</artifactId>
+            <version>3.13.0</version>
             <configuration>
                <rulesets>
                   <!-- The customized rules file -->
@@ -401,6 +405,17 @@
                   <!-- Excludes generated code -->
                   <exclude>**/generated/**/*</exclude>
                </excludes>
+            </configuration>
+         </plugin>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <configuration>
+               <archive>
+                  <manifestEntries>
+                     <Automatic-Module-Name>simplefx</Automatic-Module-Name>
+                  </manifestEntries>
+               </archive>
             </configuration>
          </plugin>
       </plugins>
