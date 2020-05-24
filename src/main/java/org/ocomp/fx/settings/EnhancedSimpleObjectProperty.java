@@ -108,7 +108,7 @@ public class EnhancedSimpleObjectProperty<T> extends SimpleObjectProperty<T> {
     /**
      * Inherits {@link SimpleObjectProperty#SimpleObjectProperty()}
      *
-     * @param initialValue
+     * @param initialValue the initial value of the property
      */
     public EnhancedSimpleObjectProperty(T initialValue) {
         super(initialValue);
@@ -117,8 +117,8 @@ public class EnhancedSimpleObjectProperty<T> extends SimpleObjectProperty<T> {
     /**
      * Inherits {@link SimpleObjectProperty#SimpleObjectProperty(Object, String)}
      *
-     * @param bean
-     * @param name
+     * @param bean the bean
+     * @param name the name of the property
      */
     public EnhancedSimpleObjectProperty(Object bean, String name) {
         super(bean, name);
@@ -127,9 +127,9 @@ public class EnhancedSimpleObjectProperty<T> extends SimpleObjectProperty<T> {
     /**
      * Inherits {@link SimpleObjectProperty#SimpleObjectProperty(Object, String, Object)}
      *
-     * @param bean
-     * @param name
-     * @param initialValue
+     * @param bean the bean
+     * @param name the name of the property
+     * @param initialValue the initial value of the property
      */
     public EnhancedSimpleObjectProperty(Object bean, String name, T initialValue) {
         super(bean, name, initialValue);

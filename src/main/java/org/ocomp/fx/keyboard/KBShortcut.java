@@ -39,7 +39,7 @@ import java.lang.reflect.Method;
  * meaning for the time being it is associated with javafx event handlers
  * with plans to expand into even broader method signatures.
  *
- * @param <T>
+ * @param <T> the type of action event
  */
 public class KBShortcut<T extends ActionEvent> {
     protected KeyCombination kbs;

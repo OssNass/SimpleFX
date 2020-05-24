@@ -60,7 +60,7 @@ public class KBSManager {
     /**
      * This is an internal function and must not be called by the user
      *
-     * @param e
+     * @param e the event
      */
     private void handleKeys(KeyEvent e) {
         if (!this.root.isDisabled()) {

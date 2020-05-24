@@ -187,6 +187,7 @@ public abstract class SimpleController {
 
     /**
      * This function is used as an event handler to fix a problem when showing the stage and the size is wrong
+     * @param event the window event
      */
     protected void stageOnShow(WindowEvent event) {
         if (!this.stage.isMaximized() || !this.stage.isFullScreen()) {

@@ -97,7 +97,7 @@ public class ControlMaster {
         return cm;
     }
 
-    protected void setLanguage(ResourceBundle lang) {
+    private void setLanguage(ResourceBundle lang) {
         if (lang == null) {
             throw new IllegalArgumentException("The language resource cannot be null");
         }
@@ -106,7 +106,7 @@ public class ControlMaster {
                 .getString("LANG.SHORT"), lang.getString("LANG.COUNTRY")));
     }
 
-    protected void setLanguage(String lang) throws IOException {
+    private void setLanguage(String lang) throws IOException {
         setLanguage(new PropertyResourceBundle(new InputStreamReader(new FileInputStream(lang), StandardCharsets.UTF_8)));
     }
 
@@ -189,9 +189,6 @@ public class ControlMaster {
         return res;
     }
 
-    /**
-     * This is an internal function, must not be called by the user
-     */
     private void addController(ControllerInfo info, Class<? extends SimpleController> controllerClass) throws IOException {
         if (controllerClasses.containsKey(info.Id())) {
             throw new FXMLIDDuplicationException(info.Id());
@@ -214,9 +211,6 @@ public class ControlMaster {
         }
     }
 
-    /**
-     * This is an internal function, must not be called by the user
-     */
     private void findControllers() throws IOException {
 
         try (ScanResult res = new ClassGraph().enableAnnotationInfo().scan()) {
@@ -227,11 +221,5 @@ public class ControlMaster {
                 icons.put(ci.Id(), ci.Icon());
             }
         }
-//        Reflections refs = new Reflections();
-//        for (Class<?> cl : refs.getTypesAnnotatedWith(ControllerInfo.class)) {
-//            ControllerInfo ci = cl.getAnnotation(ControllerInfo.class);
-//            addController(ci, (Class<? extends SimpleController>) cl);
-//            icons.put(ci.Id(), ci.Icon());
-//        }
     }
 }
