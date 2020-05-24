@@ -80,7 +80,7 @@ public abstract class SimpleController {
      */
     protected String icon;
 
-    private String FXMLName;
+    protected String Id;
 
     @FXML
     void initialize() {
@@ -94,6 +94,23 @@ public abstract class SimpleController {
         System.out.printf(getClass().getSimpleName());
         userInit();
 
+    }
+
+    /**
+     * Return the Id of the FXML file
+     * @return the Id of the FXML file
+     */
+    public String getId() {
+        return Id;
+    }
+
+    /**
+     * Changes the Id of the fxml file
+     * Must not be called by the user
+     * @param id the new Id of the fxml file
+     */
+    void setId(String id) {
+        Id = id;
     }
 
     /**
@@ -180,7 +197,7 @@ public abstract class SimpleController {
     }
 
     private void setTitle() {
-        String titleKey = String.format("STAGE.%s.TITLE", getClass().getSimpleName());
+        String titleKey = String.format("STAGE.%s.TITLE", Id);
         if (this.resources.containsKey(titleKey))
             stage.setTitle(this.resources.getString(titleKey));
     }
@@ -192,7 +209,7 @@ public abstract class SimpleController {
     }
 
     void setIcon(String icon) {
-        if (icon.isEmpty())
+        if (icon==null || icon.isEmpty())
             icon = null;
         this.icon = icon;
     }

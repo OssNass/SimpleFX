@@ -24,12 +24,21 @@
 
 package org.ocomp.fx;
 
+//import io.github.classgraph.AnnotationInfo;
+//import io.github.classgraph.ClassGraph;
+//import io.github.classgraph.ClassInfo;
+//import io.github.classgraph.ScanResult;
+
+import io.github.classgraph.ClassGraph;
+import io.github.classgraph.ClassInfo;
+import io.github.classgraph.ClassInfoList;
+import io.github.classgraph.ScanResult;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import org.ocomp.fx.exceptions.FXMLIDDuplicationException;
 import org.ocomp.fx.exceptions.FXMLNotFoundException;
-import org.reflections.Reflections;
+
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -173,6 +182,7 @@ public class ControlMaster {
                 System.out.println(e.getLocalizedMessage());
             }
         SimpleController res = (SimpleController) loader.getController();
+        res.setId(Id);
         res.setIcon(icons.get(Id));
         Scene scene = new Scene(res.getRoot());
         res.setScene(scene);
@@ -208,11 +218,20 @@ public class ControlMaster {
      * This is an internal function, must not be called by the user
      */
     private void findControllers() throws IOException {
-        Reflections refs = new Reflections();
-        for (Class<?> cl : refs.getTypesAnnotatedWith(ControllerInfo.class)) {
-            ControllerInfo ci = cl.getAnnotation(ControllerInfo.class);
-            addController(ci, (Class<? extends SimpleController>) cl);
-            icons.put(ci.Id(), ci.Icon());
+
+        try (ScanResult res = new ClassGraph().enableAnnotationInfo().scan()) {
+            ClassInfoList cil = res.getClassesWithAnnotation(ControllerInfo.class.getCanonicalName());
+            for (ClassInfo cinfo : cil) {
+                ControllerInfo ci = (ControllerInfo) cinfo.getAnnotationInfo(ControllerInfo.class.getCanonicalName()).loadClassAndInstantiate();
+                addController(ci, (Class<? extends SimpleController>) cinfo.loadClass());
+                icons.put(ci.Id(), ci.Icon());
+            }
         }
+//        Reflections refs = new Reflections();
+//        for (Class<?> cl : refs.getTypesAnnotatedWith(ControllerInfo.class)) {
+//            ControllerInfo ci = cl.getAnnotation(ControllerInfo.class);
+//            addController(ci, (Class<? extends SimpleController>) cl);
+//            icons.put(ci.Id(), ci.Icon());
+//        }
     }
 }
