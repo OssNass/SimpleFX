@@ -12,7 +12,7 @@ The main reason behind that approach is to allow a balance between memory usage 
 
 In order to utlize this feature you need to extened the `SimpleController` class and annotate it with `ControllerInfo` annotation in which you need to specify a unique string ID and the full absolete path to the FXML in the project resources at least.
 
-Please notice that this is not a finished product, and the examples are yet to be ready as currently I am busy on another project.
+Please notice that this is not a finished product.
 
 More updates will follow.
 
