@@ -9,9 +9,7 @@ import org.ocomp.fx.ContollerType;
 import org.ocomp.fx.ControlMaster;
 import org.ocomp.fx.ControllerInfo;
 import org.ocomp.fx.SimpleController;
-import org.ocomp.fx.exceptions.FXMLNotFoundException;
 
-import javax.management.StandardEmitterMBean;
 import java.io.IOException;
 
 @ControllerInfo(Id = "initOnceStartup", FXMLFile = "/fxmls/initOnStartup.fxml"
