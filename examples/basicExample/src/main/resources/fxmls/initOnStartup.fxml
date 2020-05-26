@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.FlowPane?>
+
+<FlowPane fx:id="root" hgap="12.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWrapLength="450.0" vgap="12.0" xmlns="http://javafx.com/javafx/8.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.github.ossnass.basicexample.gui.InitOnceStartup">
+   <children>
+      <Label text="%lblTitle" />
+      <TextField fx:id="txtAlways" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" />
+      <Button fx:id="btnOnceOnDemand" mnemonicParsing="false" onAction="#btnOnceOnDemandClick" text="%initondemand" />
+      <Button fx:id="btnMulti" mnemonicParsing="false" onAction="#btnMultiClick" text="%multiinit" />
+   </children>
+   <padding>
+      <Insets bottom="18.0" left="18.0" right="18.0" top="18.0" />
+   </padding>
+</FlowPane>
