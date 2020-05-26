@@ -1,0 +1,17 @@
+LANG.NAME=Arabic (Egypt)
+LANG.SHORT=ar
+LANG.COUNTRY=EG
+LANG.DIR=RTL
+
+MESSAGE.TITLE.ERROR=خطأ
+MESSAGE.TITLE.WARNING=تنبه
+MESSAGE.TITLE.INFO=لأخذ العلم
+MESSAGE.TITLE.CONFIRM=تأكيد
+
+
+date=تاريخ
+showMessage=إظهار رسالة
+testString=نص اختباري
+STGE.LangMain.TITLE=مثال تعامل مع اللغة
+InfoHeader=ترويسة الرسالة
+InfoBody=محتوى الرسالة

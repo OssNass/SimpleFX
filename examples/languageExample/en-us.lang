@@ -1,0 +1,17 @@
+LANG.NAME=English (United States)
+LANG.SHORT=en
+LANG.COUNTRY=US
+LANG.DIR=LTR
+
+MESSAGE.TITLE.ERROR=Error
+MESSAGE.TITLE.WARNING=Warning
+MESSAGE.TITLE.INFO=Information
+MESSAGE.TITLE.CONFIRM=Confirm
+
+
+date=Date
+showMessage=Show Message
+testString=Test String
+STGE.LangMain.TITLE=Language Example
+InfoHeader=Message Header
+InfoBody=Message Content

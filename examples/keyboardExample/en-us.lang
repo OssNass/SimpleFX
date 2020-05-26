@@ -1,0 +1,18 @@
+LANG.NAME=English (United States)
+LANG.SHORT=en
+LANG.COUNTRY=US
+LANG.DIR=LTR
+
+MESSAGE.TITLE.ERROR=Error
+MESSAGE.TITLE.WARNING=Warning
+MESSAGE.TITLE.INFO=Information
+MESSAGE.TITLE.CONFIRM=Confirm
+
+
+pButtonA=click "Ctrl+a" to show info message
+pButtonB=click "Ctrl+b" to show warning message
+pButtonC=click "Ctrl+c" to show error message
+buttonA=Info Message
+buttonB=Warning Message
+buttonC=Error Message
+STAGE.KBEMain.TITLE=Keyboard Example
