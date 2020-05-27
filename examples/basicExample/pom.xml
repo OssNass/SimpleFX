@@ -6,12 +6,12 @@
 
     <groupId>io.github.ossnass</groupId>
     <artifactId>basicExample</artifactId>
-    <version>0.1-alpha</version>
+    <version>0.1-SNAPSHOT</version>
     <dependencies>
         <dependency>
             <groupId>io.github.ossnass</groupId>
             <artifactId>simplefx</artifactId>
-            <version>0.1-alpha</version>
+            <version>0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

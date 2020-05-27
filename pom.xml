@@ -6,7 +6,7 @@
 
     <groupId>io.github.ossnass</groupId>
     <artifactId>simplefx</artifactId>
-    <version>0.1-alpha</version>
+    <version>0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>SimpleFX library</name>
