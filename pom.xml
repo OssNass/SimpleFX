@@ -4,7 +4,7 @@
 
     <groupId>io.github.ossnass</groupId>
     <artifactId>simplefx</artifactId>
-    <version>0.2-SNAPSHOT</version>
+    <version>0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>SimpleFX library</name>
@@ -24,7 +24,9 @@
       <name>Ossama Nasser</name>
       <url>https://github.com/ossnass</url>
    </organization>
-
+    <scm>
+        <url>https://github.com/OssNass/SimpleFX</url>
+    </scm>
    <developers> 
       <developer>
          <id>ossnassjira</id>
@@ -78,31 +80,21 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>3.2.1</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
                         <goals>
-                            <goal>jar</goal>
+                            <goal>jar-no-fork</goal>
                         </goals>
                     </execution>
                 </executions>
             </plugin>
             <plugin>
-                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-javadoc-plugin -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.2.0</version>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                    <sourceFileExcludes>
-                        <!-- Excludes generated code -->
-                        <exclude>**/generated/**/*</exclude>
-                    </sourceFileExcludes>
-                </configuration>
                 <executions>
                     <execution>
-                        <id>attach-javadoc</id>
+                        <id>attach-javadocs</id>
                         <goals>
                             <goal>jar</goal>
                         </goals>
@@ -110,35 +102,29 @@
                 </executions>
             </plugin>
             <plugin>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <version>3.0.0-M1</version>
-                <executions>
-                    <execution>
-                        <id>default-deploy</id>
-                        <phase>deploy</phase>
-                        <goals>
-                            <goal>deploy</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.7</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossnassjirta</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>3.0.0-M1</version>
-                <configuration>
-                    <localCheckout>true</localCheckout>
-                    <pushChanges>false</pushChanges>
-                    <mavenExecutorId>forked-path</mavenExecutorId>
-                    <arguments>-Dgpg.passphrase=${gpg.passphrase}</arguments>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.apache.maven.scm</groupId>
-                        <artifactId>maven-scm-provider-gitexe</artifactId>
-                        <version>1.11.2</version>
-                    </dependency>
-                </dependencies>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <id>ossnassjirta</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
@@ -153,56 +139,15 @@
             </plugin>
         </plugins>
     </build>
+
     <distributionManagement>
         <snapshotRepository>
-            <id>ossnassjira</id>
+            <id>ossnassjirta</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
         <repository>
-            <id>ossnassjira</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/
-            </url>
+            <id>ossnassjirta</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
-    <scm>
-        <connection>scm:git:git://github.com/OssNass/SimpleFX.git</connection>
-        <developerConnection>scm:git:https:github.com/OssNass/SimpleFX.git</developerConnection>
-        <url>https://github.com/OssNass/SimpleFX</url>
-        <tag>HEAD</tag>
-    </scm>
-    <issueManagement>
-        <system>GitHub</system>
-        <url>https://www.github.com/ossnass/simplefx/issues</url>
-    </issueManagement>
-    <profiles>
-        <!-- GPG Signature on release -->
-        <profile>
-            <id>release-sign-artifacts</id>
-            <activation>
-                <property>
-                    <name>performRelease</name>
-                    <value>true</value>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-gpg-plugin -->
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.6</version>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 </project>
