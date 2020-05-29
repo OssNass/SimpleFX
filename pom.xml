@@ -4,7 +4,7 @@
 
     <groupId>io.github.ossnass</groupId>
     <artifactId>simplefx</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.1</version>
     <packaging>jar</packaging>
 
     <name>SimpleFX library</name>
@@ -28,7 +28,8 @@
         <url>https://github.com/OssNass/SimpleFX</url>
         <connection>scm:git:https://github.com/OssNass/SimpleFX.git</connection>
         <developerConnection>scm:git:https://github.com/OssNass/SimpleFX.git</developerConnection>
-    </scm>
+      <tag>simplefx-0.1</tag>
+  </scm>
    <developers> 
       <developer>
          <id>ossnassjira</id>
