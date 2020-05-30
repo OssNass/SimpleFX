@@ -26,7 +26,7 @@ In order to use it in your project please import using Maven:
 </dependency>
 ```
 
-and In Gradle:
+or in Gradle:
 
 ```
 compile group: 'io.github.ossnass', name: 'simplefx', version: '0.2'
