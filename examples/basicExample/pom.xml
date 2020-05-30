@@ -6,25 +6,37 @@
 
     <groupId>io.github.ossnass</groupId>
     <artifactId>basicExample</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.2</version>
     <dependencies>
         <dependency>
             <groupId>io.github.ossnass</groupId>
             <artifactId>simplefx</artifactId>
-            <version>0.1-SNAPSHOT</version>
+            <version>0.2</version>
         </dependency>
     </dependencies>
 
     <build>
-        <plugins>
-            <plugin>
-                <groupId>com.zenjava</groupId>
-                <artifactId>javafx-maven-plugin</artifactId>
-                <version>8.8.3</version>
-                <configuration>
-                    <mainClass>io.github.ossnass.basicexample.app.main</mainClass>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+            <executable>java</executable>           
+            <arguments>
+                <argument>-Djdk.gtk.version=2</argument>
+                <argument>-classpath</argument>
+                <classpath/>
+                <argument>io.github.ossnass.basicexample.app.Main</argument>
+            </arguments>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>

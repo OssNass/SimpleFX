@@ -12,6 +12,6 @@ MESSAGE.TITLE.CONFIRM=Confirm
 date=Date
 showMessage=Show Message
 testString=Test String
-STGE.LangMain.TITLE=Language Example
+STAGE.LangMain.TITLE=Language Example
 InfoHeader=Message Header
 InfoBody=Message Content

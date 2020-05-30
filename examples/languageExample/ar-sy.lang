@@ -12,6 +12,6 @@ MESSAGE.TITLE.CONFIRM=تأكيد
 date=تاريخ
 showMessage=إظهار رسالة
 testString=نص اختباري
-STGE.LangMain.TITLE=مثال تعامل مع اللغة
+STAGE.LangMain.TITLE=مثال تعامل مع اللغة
 InfoHeader=ترويسة الرسالة
 InfoBody=محتوى الرسالة
