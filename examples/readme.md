@@ -6,5 +6,5 @@ This folder contains examples describing how to use the library:
 
 [keyboardExample](keyboardExample) describes how to use keyboard shortcuts functionality
 
-[languageExampel](languageExampel) describes how to use the multi language support functionality
+[languageExampel](languageExample) describes how to use the multi language support functionality
 
