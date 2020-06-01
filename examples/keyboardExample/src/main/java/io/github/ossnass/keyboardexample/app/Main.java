@@ -10,7 +10,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         ControlMaster.getControlMaster().initControlMaster("en-us.lang", null);
-        SimpleController kbmain=ControlMaster.getControlMaster().getInstance("KBEMain");
+        SimpleController kbmain=ControlMaster.getControlMaster().getController("KBEMain");
         kbmain.setStage(stage);
         stage.setResizable(false);
         stage.show();

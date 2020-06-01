@@ -18,6 +18,10 @@ public class initMultiple extends SimpleController {
         
     }
 
+    protected void onStageShowUser() {
+        
+    }
+
     @FXML
     private TextField txtMessage;
 

@@ -11,7 +11,7 @@ public class Main extends Application {
         ControlMaster.getControlMaster().initControlMaster("en-us.lang", null);
 //        ControlMaster.getControlMaster().initControlMaster("ar-sy.lang",null);
 //        ControlMaster.getControlMaster().initControlMaster("ar-eg.lang",null);
-        SimpleController LangMain = ControlMaster.getControlMaster().getInstance("LangMain");
+        SimpleController LangMain = ControlMaster.getControlMaster().getController("LangMain");
         LangMain.setStage(stage);
         stage.show();
     }

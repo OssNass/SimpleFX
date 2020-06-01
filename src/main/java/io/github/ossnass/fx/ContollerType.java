@@ -29,15 +29,15 @@ package io.github.ossnass.fx;
  */
 public enum ContollerType {
     /**
-     * Initialize the controller once at startup, on every call to {@link ControlMaster#getInstance} returns the same instance
+     * Initialize the controller once at startup, on every call to {@link ControlMaster#getController} returns the same instance
      */
     SINGLE_INSTANCE_ON_STARTUP(ControlMaster.initOnceStartup.get()),
     /**
-     * Initialize the controller once on demand, on every call to {@link ControlMaster#getInstance} returns the same instance
+     * Initialize the controller once on demand, on every call to {@link ControlMaster#getController} returns the same instance
      */
     SINGLE_INSTANCE_ON_DEMAND(ControlMaster.initOnceOnDemand.get()),
     /**
-     * Initialize the controller on demand, on every call to {@link ControlMaster#getInstance} returns a new instance
+     * Initialize the controller on demand, on every call to {@link ControlMaster#getController} returns a new instance
      */
     MULTIPLE_INSTANCE(ControlMaster.initMulti.get());
 

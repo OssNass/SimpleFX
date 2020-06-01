@@ -17,6 +17,10 @@ public class initOnDemand  extends SimpleController {
         
     }
 
+    protected void onStageShowUser() {
+        
+    }
+
     @FXML
     private TextField txtMessage;
 

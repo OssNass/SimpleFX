@@ -28,7 +28,7 @@ public class InitOnceStartup extends SimpleController {
     @FXML
     void btnMultiClick(ActionEvent event) {
         try {
-            SimpleController onDemand= ControlMaster.getControlMaster().getInstance("InitMultiple");
+            SimpleController onDemand= ControlMaster.getControlMaster().getController("InitMultiple");
             Stage newStage=new Stage();
             onDemand.setStage(newStage);
             newStage.show();
@@ -40,7 +40,7 @@ public class InitOnceStartup extends SimpleController {
     @FXML
     void btnOnceOnDemandClick(ActionEvent event) {
         try {
-            SimpleController onDemand= ControlMaster.getControlMaster().getInstance("InitOnceOnDemand");
+            SimpleController onDemand= ControlMaster.getControlMaster().getController("InitOnceOnDemand");
             if(onDemand.getStage()==null)
                 onDemand.setStage(new Stage());
             onDemand.getStage().show();
@@ -51,5 +51,9 @@ public class InitOnceStartup extends SimpleController {
     @Override
     protected void userInit() {
 
+    }
+
+    protected void onStageShowUser() {
+        
     }
 }

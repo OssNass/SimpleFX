@@ -41,4 +41,9 @@ public class KBExample extends SimpleController {
         kbsm.addKeyboardShortcut("Warning",new KBShortcut<ActionEvent>(btnB, KeyCombination.valueOf("ctrl+b"),this::btnBClick));
         kbsm.addKeyboardShortcut("Error",new KBShortcut<ActionEvent>(btnC, KeyCombination.valueOf("ctrl+c"),this::btnCClick));
     }
+
+    @Override
+    protected void onStageShowUser() {
+        
+    }
 }

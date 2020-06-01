@@ -187,11 +187,12 @@ public abstract class SimpleController {
      * This function is used as an event handler to fix a problem when showing the stage and the size is wrong
      * @param event the window event
      */
-    protected void stageOnShow(WindowEvent event) {
+    private void stageOnShow(WindowEvent event) {
         if (!this.stage.isMaximized() || !this.stage.isFullScreen()) {
             this.stage.sizeToScene();
             this.stage.setWidth(this.stage.getWidth());
             this.stage.setHeight(this.stage.getHeight());
+            onStageShowUser();
         }
     }
 
@@ -214,7 +215,14 @@ public abstract class SimpleController {
     }
 
     /**
-     * Must be overridden by the user to implement there own initialization
+     * Must be overridden by the user to implement there own initialization.
      */
     protected abstract void userInit();
+
+    /**
+     * Must be overridden by the user to implement there own code that execute when the stage is shown.
+     *
+     * Only called when there is a stage to show
+     */
+    protected void onStageShowUser(){};
 }

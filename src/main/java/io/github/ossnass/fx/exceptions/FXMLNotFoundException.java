@@ -27,7 +27,7 @@ package io.github.ossnass.fx.exceptions;
 import io.github.ossnass.fx.ControlMaster;
 
 /**
- * This is exception is thrown by {@link ControlMaster#getInstance(String)} if the ID doesn't match any already registered controllers in any type
+ * This is exception is thrown by {@link ControlMaster#getController(String)} if the ID doesn't match any already registered controllers in any type
  */
 public class FXMLNotFoundException extends RuntimeException {
     private static final String msg="FXML for ID %s not found";

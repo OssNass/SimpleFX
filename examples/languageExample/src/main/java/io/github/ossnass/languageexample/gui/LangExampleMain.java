@@ -15,6 +15,11 @@ public class LangExampleMain extends SimpleController {
 
     }
 
+    @Override
+    protected void onStageShowUser() {
+        
+    }
+
     @FXML
     private Button btnMessage;
 

@@ -10,7 +10,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         ControlMaster.getControlMaster().initControlMaster("en-us.lang",null);
-        SimpleController mainWindow=ControlMaster.getControlMaster().getInstance("initOnceStartup");
+        SimpleController mainWindow=ControlMaster.getControlMaster().getController("initOnceStartup");
         mainWindow.setStage(stage);
         stage.show();
     }
