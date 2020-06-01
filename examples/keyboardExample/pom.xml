@@ -6,18 +6,18 @@
 
     <groupId>io.github.oss</groupId>
     <artifactId>keyboardExample</artifactId>
-    <version>0.3</version>
+    <version>0.3-11</version>
     <properties>
-        <java.version>1.8</java.version>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
+        <java.version>11</java.version>
+        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
         <dependency>
             <groupId>io.github.ossnass</groupId>
             <artifactId>simplefx</artifactId>
-            <version>0.3-SNAPSHOT</version>
+            <version>0.3-11-SNAPSHOT</version>
         </dependency>
     </dependencies>
      <build>
