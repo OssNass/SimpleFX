@@ -34,12 +34,16 @@ import javafx.scene.layout.Pane;
 import io.github.ossnass.fx.exceptions.FXMLIDDuplicationException;
 import io.github.ossnass.fx.exceptions.FXMLNotFoundException;
 
-
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.module.ModuleReader;
+import java.lang.module.ModuleReference;
+import java.lang.module.ResolvedModule;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
@@ -61,6 +65,7 @@ public class ControlMaster {
     private final HashMap<String, Class<? extends SimpleController>> controllerClasses = new HashMap<>();
     private ResourceBundle language = null;
     private String cSSPath = null;
+    private String folderName;
 
     private ControlMaster() {
 
@@ -118,11 +123,13 @@ public class ControlMaster {
      * Defines the language and CSS file and the controller will scour the class path
      * for classes extending {@link SimpleController} and annotated with {@link ControllerInfo}
      *
+     * @param folderName   the name of the client module
      * @param languageFile the path to the language file cannot be null
      * @param CSSFile      the path to the CSS file, can be null
      * @throws IOException in case of error while reading the FXML files
      */
-    public void initControlMaster(String languageFile, String CSSFile) throws IOException {
+    public void initControlMaster(String folderName, String languageFile, String CSSFile) throws IOException {
+        this.folderName = folderName;
         setLanguage(languageFile);
         setCSSPath(CSSFile);
         findControllers();
@@ -168,9 +175,9 @@ public class ControlMaster {
 
     private void addController(ControllerInfo info, Class<? extends SimpleController> controllerClass) throws IOException {
         String filename = info.FXMLFile();
-        if (!filename.startsWith("/"))
-            filename = "/" + filename;
-        URL url = getClass().getResource(filename);
+
+        URL url = Path.of(folderName, info.FXMLFile()).toFile().toURI().toURL();
+
         controllerClasses.put(info.Id(), controllerClass);
         info.Type().getAction().addController(info, url, controllerClass);
     }

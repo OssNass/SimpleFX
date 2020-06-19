@@ -3,7 +3,6 @@
 A Library designed to simplify the usage of JavaFX framework
 
 This library is built in way that makes the development easy by defining 3 types of FXML GUIs:
-
 1.  Initialize once at startup: this type is initialized once during the application life cycle, at the startup of the application is kept in the memory until the application exists 
 2.  Initialize once on demand: similar to the previous type but with a twist, it's initialized when needed and kept in the memory. 
 3.  Multiple instances: a new instance is initialize upon each request and is discarded once the stage housing it is closed.
@@ -28,6 +27,6 @@ In order to use it in your project please import using Maven:
 
 or in Gradle:
 
-```
+```groovy
 compile group: 'io.github.ossnass', name: 'simplefx', version: '0.2'
 ```

@@ -8,7 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
-@ControllerInfo(Id = "LangMain", FXMLFile = "/fxmls/langexample.fxml", Type = ContollerType.SINGLE_INSTANCE_ON_STARTUP)
+@ControllerInfo(Id = "LangMain", FXMLFile = "io.github.ossnass.languageexample/langexample.fxml", Type = ContollerType.SINGLE_INSTANCE_ON_STARTUP)
 public class LangExampleMain extends SimpleController {
     @Override
     protected void userInit() {
