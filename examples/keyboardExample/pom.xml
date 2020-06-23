@@ -15,7 +15,7 @@
         <dependency>
             <groupId>io.github.ossnass</groupId>
             <artifactId>simplefx</artifactId>
-            <version>0.3-11-SNAPSHOT</version>
+            <version>0.3-11</version>
         </dependency>
     </dependencies>
      <build>
