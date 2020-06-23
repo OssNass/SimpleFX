@@ -12,7 +12,7 @@ The main reason behind that approach is to allow a balance between memory usage 
 
 In order to utilize this feature you need to extend the `SimpleController` class and annotate it with `ControllerInfo` annotation in which you need to specify a unique string ID and the full absolute path to the FXML in the project resources at least.
 
-This library is built and tested on Java 8, with Java 9+ support down the line
+This library is built and tested on Java 8, and Java 9+.
 
 For examples you can see [examples](examples) folder.
 
