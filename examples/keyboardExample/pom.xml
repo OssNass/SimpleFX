@@ -9,8 +9,6 @@
     <version>0.3-11</version>
     <properties>
         <java.version>11</java.version>
-        <maven.compiler.target>11</maven.compiler.target>
-        <maven.compiler.source>11</maven.compiler.source>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
@@ -42,6 +40,15 @@
             </arguments>
         </configuration>
       </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.8.1</version>
+            <configuration>
+                <target>${java.version}</target>
+                <source>${java.version}</source>
+            </configuration>
+        </plugin>
     </plugins>
   </build>
 </project>

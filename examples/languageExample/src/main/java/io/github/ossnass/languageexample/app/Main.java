@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-        ControlMaster.getControlMaster().initControlMaster("languageExample","en-us.lang", null);
+        ControlMaster.getControlMaster().initControlMaster("en-us.lang", null);
 //        ControlMaster.getControlMaster().initControlMaster("ar-sy.lang",null);
 //        ControlMaster.getControlMaster().initControlMaster("ar-eg.lang",null);
         SimpleController LangMain = ControlMaster.getControlMaster().getController("LangMain");
