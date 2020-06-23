@@ -32,6 +32,10 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import io.github.ossnass.fx.keyboard.KBSManager;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.nio.file.Path;
 import java.util.ResourceBundle;
 
 /**
@@ -204,7 +208,11 @@ public abstract class SimpleController {
 
     private void loadIcon() {
         if (this.icon != null) {
-            this.stage.getIcons().add(new Image(getClass().getResourceAsStream(this.icon)));
+            try {
+                this.stage.getIcons().add(new Image(ControlMaster.getResourceAsInputStream(this.icon)));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

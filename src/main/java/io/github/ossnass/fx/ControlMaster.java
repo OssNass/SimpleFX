@@ -24,20 +24,18 @@
 
 package io.github.ossnass.fx;
 
-import io.github.classgraph.ClassGraph;
-import io.github.classgraph.ClassInfo;
-import io.github.classgraph.ClassInfoList;
-import io.github.classgraph.ScanResult;
+import io.github.classgraph.*;
+import io.github.ossnass.fx.exceptions.FXMLIDDuplicationException;
+import io.github.ossnass.fx.exceptions.FXMLNotFoundException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import io.github.ossnass.fx.exceptions.FXMLIDDuplicationException;
-import io.github.ossnass.fx.exceptions.FXMLNotFoundException;
-
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -67,6 +65,36 @@ public class ControlMaster {
     }
 
     /**
+     * Returns the only instance of {@link ControlMaster}
+     *
+     * @return the only instance of {@link ControlMaster}
+     */
+    public static ControlMaster getControlMaster() {
+        if (cm == null)
+            cm = new ControlMaster();
+        return cm;
+    }
+
+    public static Resource getRescoure(String urlStr) {
+        try (ScanResult scan = new ClassGraph().scan()) {
+            if (urlStr.startsWith("/"))
+                urlStr = urlStr.substring(1);
+            ResourceList rl = scan.getResourcesWithPath(urlStr);
+            if (rl.size() > 0)
+                return rl.get(0);
+            return null;
+        }
+    }
+
+    public static URL getURL(String urlStr) throws MalformedURLException {
+        return getRescoure(urlStr).getURL();
+    }
+
+    public static InputStream getResourceAsInputStream(String urlStr) throws IOException {
+        return getRescoure(urlStr).open();
+    }
+
+    /**
      * Returns the extra CSS file to be used by the application
      *
      * @return the extra CSS file to be used by the application
@@ -80,14 +108,12 @@ public class ControlMaster {
     }
 
     /**
-     * Returns the only instance of {@link ControlMaster}
+     * Returns the current language file
      *
-     * @return the only instance of {@link ControlMaster}
+     * @return the current language file
      */
-    public static ControlMaster getControlMaster() {
-        if (cm == null)
-            cm = new ControlMaster();
-        return cm;
+    public ResourceBundle getLanguage() {
+        return language;
     }
 
     private void setLanguage(ResourceBundle lang) {
@@ -101,15 +127,6 @@ public class ControlMaster {
 
     private void setLanguage(String lang) throws IOException {
         setLanguage(new PropertyResourceBundle(new InputStreamReader(new FileInputStream(lang), StandardCharsets.UTF_8)));
-    }
-
-    /**
-     * Returns the current language file
-     *
-     * @return the current language file
-     */
-    public ResourceBundle getLanguage() {
-        return language;
     }
 
     /**
@@ -145,10 +162,11 @@ public class ControlMaster {
         return value;
     }
 
-    private SimpleController loadController(String Id, URL url) throws IOException {
+    private SimpleController loadController(String Id) throws IOException {
         if (language == null) {
             throw new IllegalArgumentException("Language cannot be null");
         }
+        URL url = getURL(contollerInfos.get(Id).FXMLFile());
         FXMLLoader loader = new FXMLLoader(url, language);
 
         Pane root = loader.load();
@@ -168,9 +186,9 @@ public class ControlMaster {
 
     private void addController(ControllerInfo info, Class<? extends SimpleController> controllerClass) throws IOException {
         String filename = info.FXMLFile();
-        if (!filename.startsWith("/"))
-            filename = "/" + filename;
-        URL url = getClass().getResource(filename);
+
+        URL url = getURL(contollerInfos.get(info.Id()).FXMLFile());
+
         controllerClasses.put(info.Id(), controllerClass);
         info.Type().getAction().addController(info, url, controllerClass);
     }
@@ -188,6 +206,8 @@ public class ControlMaster {
                 addController(ci, (Class<? extends SimpleController>) cinfo.loadClass());
             }
         }
+
+
     }
 
     interface ControllerAction {
@@ -198,20 +218,10 @@ public class ControlMaster {
 
     static class initOnceStartup implements ControllerAction {
 
-        @Override
-        public void addController(ControllerInfo info, URL url, Class<? extends SimpleController> controllerClass) throws IOException {
-            ControlMaster.getControlMaster().singleInstance_Startup.put(info.Id(), ControlMaster.getControlMaster().loadController(info.Id(), url));
-        }
-
-        @Override
-        public SimpleController getController(String id) throws IOException {
-            return ControlMaster.getControlMaster().singleInstance_Startup.get(id);
-        }
+        private static initOnceStartup instance;
 
         private initOnceStartup() {
         }
-
-        private static initOnceStartup instance;
 
         public static ControllerAction get() {
             if (instance == null)
@@ -219,10 +229,31 @@ public class ControlMaster {
             return instance;
         }
 
+        @Override
+        public void addController(ControllerInfo info, URL url, Class<? extends SimpleController> controllerClass) throws IOException {
+            ControlMaster.getControlMaster().singleInstance_Startup.put(info.Id(), ControlMaster.getControlMaster().loadController(info.Id()));
+        }
+
+        @Override
+        public SimpleController getController(String id) throws IOException {
+            return ControlMaster.getControlMaster().singleInstance_Startup.get(id);
+        }
+
     }
 
     static class initOnceOnDemand implements ControllerAction {
 
+
+        private static initOnceOnDemand instance;
+
+        private initOnceOnDemand() {
+        }
+
+        public static ControllerAction get() {
+            if (instance == null)
+                instance = new initOnceOnDemand();
+            return instance;
+        }
 
         @Override
         public void addController(ControllerInfo info, URL url, Class<? extends SimpleController> controllerClass) throws IOException {
@@ -234,26 +265,25 @@ public class ControlMaster {
             SimpleController value = null;
             value = ControlMaster.getControlMaster().singleInstance_Startup.get(Id);
             if (value == null) {
-                URL url = getClass().getResource(ControlMaster.getControlMaster().contollerInfos.get(Id).FXMLFile());
-                value = ControlMaster.getControlMaster().loadController(Id, url);
+                value = ControlMaster.getControlMaster().loadController(Id);
                 ControlMaster.getControlMaster().singleInstance_Startup.put(Id, value);
             }
             return value;
         }
-
-        private initOnceOnDemand() {
-        }
-
-        private static initOnceOnDemand instance;
-
-        public static ControllerAction get() {
-            if (instance == null)
-                instance = new initOnceOnDemand();
-            return instance;
-        }
     }
 
     static class initMulti implements ControllerAction {
+
+        private static initMulti instance;
+
+        private initMulti() {
+        }
+
+        public static ControllerAction get() {
+            if (instance == null)
+                instance = new initMulti();
+            return instance;
+        }
 
         @Override
         public void addController(ControllerInfo info, URL url, Class<? extends SimpleController> controllerClass) throws IOException {
@@ -262,18 +292,7 @@ public class ControlMaster {
 
         @Override
         public SimpleController getController(String Id) throws IOException {
-            return ControlMaster.getControlMaster().loadController(Id, getClass().getResource(ControlMaster.getControlMaster().contollerInfos.get(Id).FXMLFile()));
-        }
-
-        private initMulti() {
-        }
-
-        private static initMulti instance;
-
-        public static ControllerAction get() {
-            if (instance == null)
-                instance = new initMulti();
-            return instance;
+            return ControlMaster.getControlMaster().loadController(Id);
         }
     }
 }

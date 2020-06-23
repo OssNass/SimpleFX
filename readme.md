@@ -22,12 +22,28 @@ In order to use it in your project please import using Maven:
 <dependency>
     <groupId>io.github.ossnass</groupId>
     <artifactId>simplefx</artifactId>
-    <version>0.2</version>
+    <version>0.3</version>
 </dependency>
 ```
 
 or in Gradle:
 
 ```
-compile group: 'io.github.ossnass', name: 'simplefx', version: '0.2'
+compile group: 'io.github.ossnass', name: 'simplefx', version: '0.3'
+```
+
+If you are using Java 11+ please use the following
+
+```xml
+<dependency>
+    <groupId>io.github.ossnass</groupId>
+    <artifactId>simplefx</artifactId>
+    <version>0.3-11</version>
+</dependency>
+```
+
+or in Gradle:
+
+```
+compile group: 'io.github.ossnass', name: 'simplefx', version: '0.3-11'
 ```
