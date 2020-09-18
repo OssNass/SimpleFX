@@ -24,24 +24,27 @@
 
 package io.github.ossnass.fx;
 
-import io.github.classgraph.*;
+import io.github.classgraph.ClassGraph;
+import io.github.classgraph.ClassInfo;
+import io.github.classgraph.ClassInfoList;
+import io.github.classgraph.ScanResult;
 import io.github.ossnass.fx.exceptions.FXMLIDDuplicationException;
 import io.github.ossnass.fx.exceptions.FXMLNotFoundException;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
 
 /**
  * The brains behind SimpleFX library.
@@ -49,7 +52,13 @@ import java.util.ResourceBundle;
  * All your controllers are initialized here, and in order to be initialized, each controller
  * must extend {@link SimpleController} and must be annotated with {@link ControllerInfo}
  * <p>
- * The language and CSS files are defined here in order to pass it to all controllers.
+ * The language file are defined here in order to pass it to all controllers.
+ * <p>
+ * For CSS files, there are 2 types:
+ * <ol>
+ *     <li>Global CSS: a list exists inside ControlMaster passed to all {@link SimpleController} objects</li>
+ *     <li>A local CSS per controller that can be passed using {@link ControllerInfo#CSS()}, which has to be resource bound.</li>
+ * </ol>
  */
 public class ControlMaster {
 
@@ -57,11 +66,10 @@ public class ControlMaster {
     private final HashMap<String, SimpleController> singleInstance_Startup = new HashMap<>();
     private final HashMap<String, ControllerInfo> contollerInfos = new HashMap<>();
     private final HashMap<String, Class<? extends SimpleController>> controllerClasses = new HashMap<>();
-    private ResourceBundle language = null;
-    private String cSSPath = null;
+    private MultiSourceResourceBundle language = null;
+    private ObservableList<String> csses = FXCollections.observableArrayList(new ArrayList<>());
 
     private ControlMaster() {
-
     }
 
     /**
@@ -75,23 +83,12 @@ public class ControlMaster {
         return cm;
     }
 
-    public static Resource getRescoure(String urlStr) {
-        try (ScanResult scan = new ClassGraph().scan()) {
-            if (urlStr.startsWith("/"))
-                urlStr = urlStr.substring(1);
-            ResourceList rl = scan.getResourcesWithPath(urlStr);
-            if (rl.size() > 0)
-                return rl.get(0);
-            return null;
-        }
+    void addChangeListener(ListChangeListener lcl) {
+        csses.addListener(lcl);
     }
 
-    public static URL getURL(String urlStr) throws MalformedURLException {
-        return getRescoure(urlStr).getURL();
-    }
-
-    public static InputStream getResourceAsInputStream(String urlStr) throws IOException {
-        return getRescoure(urlStr).open();
+    void removeChangeListener(ListChangeListener lcl) {
+        csses.removeListener(lcl);
     }
 
     /**
@@ -99,24 +96,21 @@ public class ControlMaster {
      *
      * @return the extra CSS file to be used by the application
      */
-    public final String getCSSPath() {
-        return cSSPath;
+    public final ObservableList<String> getCSSes() {
+        return csses;
     }
 
-    protected final void setCSSPath(String cSSPath2) {
-        cSSPath = cSSPath2;
-    }
 
     /**
      * Returns the current language file
      *
      * @return the current language file
      */
-    public ResourceBundle getLanguage() {
+    public MultiSourceResourceBundle getLanguage() {
         return language;
     }
 
-    private void setLanguage(ResourceBundle lang) {
+    private void setLanguage(MultiSourceResourceBundle lang) {
         if (lang == null) {
             throw new IllegalArgumentException("The language resource cannot be null");
         }
@@ -126,7 +120,7 @@ public class ControlMaster {
     }
 
     private void setLanguage(String lang) throws IOException {
-        setLanguage(new PropertyResourceBundle(new InputStreamReader(new FileInputStream(lang), StandardCharsets.UTF_8)));
+        setLanguage(new MultiSourceResourceBundle(new InputStreamReader(new FileInputStream(lang), StandardCharsets.UTF_8)));
     }
 
     /**
@@ -136,12 +130,10 @@ public class ControlMaster {
      * for classes extending {@link SimpleController} and annotated with {@link ControllerInfo}
      *
      * @param languageFile the path to the language file cannot be null
-     * @param CSSFile      the path to the CSS file, can be null
      * @throws IOException in case of error while reading the FXML files
      */
-    public void initControlMaster(String languageFile, String CSSFile) throws IOException {
+    public void initControlMaster(String languageFile) throws IOException {
         setLanguage(languageFile);
-        setCSSPath(CSSFile);
         findControllers();
     }
 
@@ -166,7 +158,7 @@ public class ControlMaster {
         if (language == null) {
             throw new IllegalArgumentException("Language cannot be null");
         }
-        URL url = getURL(contollerInfos.get(Id).FXMLFile());
+        URL url = ResourceManager.getURL(contollerInfos.get(Id).FXMLFile());
         FXMLLoader loader = new FXMLLoader(url, language);
 
         Pane root = loader.load();
@@ -177,8 +169,6 @@ public class ControlMaster {
                 System.out.println(e.getLocalizedMessage());
             }
         SimpleController res = (SimpleController) loader.getController();
-        res.setId(Id);
-        res.setIcon(contollerInfos.get(Id).Icon());
         Scene scene = new Scene(res.getRoot());
         res.setScene(scene);
         return res;
@@ -187,7 +177,7 @@ public class ControlMaster {
     private void addController(ControllerInfo info, Class<? extends SimpleController> controllerClass) throws IOException {
         String filename = info.FXMLFile();
 
-        URL url = getURL(contollerInfos.get(info.Id()).FXMLFile());
+        URL url = ResourceManager.getURL(contollerInfos.get(info.Id()).FXMLFile());
 
         controllerClasses.put(info.Id(), controllerClass);
         info.Type().getAction().addController(info, url, controllerClass);

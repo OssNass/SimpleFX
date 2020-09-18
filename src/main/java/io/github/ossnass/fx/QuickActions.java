@@ -36,16 +36,19 @@ import javafx.scene.control.ButtonType;
 public class QuickActions {
     /**
      * Shows an error message
-     * @param title the title of the message,if null then the title is loaded from the language file under the key {@link LanguageKeys#MESSAGE_TITLE_ERROR}
-     * @param header the header of the message can be null
+     *
+     * @param title   the title of the message,if null then the title is loaded from the language file under the key {@link LanguageKeys#MESSAGE_TITLE_ERROR}
+     * @param header  the header of the message can be null
      * @param content the body of the message can be null
-     * @param owner the owner of the message, if not null, the message will have the same node orientation of the owner
+     * @param owner   the owner of the message, if not null, the message will have the same node orientation of the owner
      */
     public static void showErrorMessage(String title, String header, String content, SimpleController owner) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.getDialogPane().getScene().getStylesheets().addAll(ControlMaster.getControlMaster().getCSSes());
         if (owner != null && owner.getRoot() != null) {
             alert.dialogPaneProperty().get().setNodeOrientation(owner.getRoot().getNodeOrientation());
-            alert.initOwner(owner.getStage());
+            if (owner.getStage() != null)
+                alert.initOwner(owner.getStage());
         }
         if (title == null)
             title = ControlMaster.getControlMaster().getLanguage().getString("MESSAGE.TITLE.ERROR");
@@ -57,16 +60,19 @@ public class QuickActions {
 
     /**
      * Shows an info message
-     * @param title the title of the message,if null then the title is loaded from the language file under the key {@link LanguageKeys#MESSAGE_TITLE_INFO}
-     * @param header the header of the message can be null
+     *
+     * @param title   the title of the message,if null then the title is loaded from the language file under the key {@link LanguageKeys#MESSAGE_TITLE_INFO}
+     * @param header  the header of the message can be null
      * @param content the body of the message can be null
-     * @param owner the owner of the message, if not null, the message will have the same node orientation of the owner
+     * @param owner   the owner of the message, if not null, the message will have the same node orientation of the owner
      */
     public static void showInfoMessage(String title, String header, String content, SimpleController owner) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.getDialogPane().getScene().getStylesheets().addAll(ControlMaster.getControlMaster().getCSSes());
         if (owner.getRoot() != null) {
             alert.dialogPaneProperty().get().setNodeOrientation(owner.getRoot().getNodeOrientation());
-            alert.initOwner(owner.getStage());
+            if (owner.getStage() != null)
+                alert.initOwner(owner.getStage());
         }
         if (title == null)
             title = ControlMaster.getControlMaster().getLanguage().getString("MESSAGE.TITLE.INFO");
@@ -79,18 +85,21 @@ public class QuickActions {
 
     /**
      * Shows a confirmation dialog
-     * @param title the title of the message,if null then the title is loaded from the language file under the key {@link LanguageKeys#MESSAGE_TITLE_CONFIRM}
-     * @param header the header of the message can be null
+     *
+     * @param title   the title of the message,if null then the title is loaded from the language file under the key {@link LanguageKeys#MESSAGE_TITLE_CONFIRM}
+     * @param header  the header of the message can be null
      * @param content the body of the message can be null
-     * @param owner the owner of the message, if not null, the message will have the same node orientation of the owner
+     * @param owner   the owner of the message, if not null, the message will have the same node orientation of the owner
      * @return the button pressed, see {@link ButtonType} for more info
      */
 
     public static ButtonType showConfirmationMessage(String title, String header, String content, SimpleController owner) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.getDialogPane().getScene().getStylesheets().addAll(ControlMaster.getControlMaster().getCSSes());
         if (owner.getRoot() != null) {
-            alert.dialogPaneProperty().get().setNodeOrientation(owner.getRoot().getNodeOrientation());
-            alert.initOwner(owner.getStage());
+            alert.getDialogPane().setNodeOrientation(owner.getRoot().getNodeOrientation());
+            if (owner.getStage() != null)
+                alert.initOwner(owner.getStage());
         }
         if (title == null)
             title = ControlMaster.getControlMaster().getLanguage().getString("MESSAGE.TITLE.CONFIRM");
@@ -104,16 +113,20 @@ public class QuickActions {
 
     /**
      * Shows a warning message
-     * @param title the title of the message,if null then the title is loaded from the language file under the key {@link LanguageKeys#MESSAGE_TITLE_WARNING}
-     * @param header the header of the message can be null
+     *
+     * @param title   the title of the message,if null then the title is loaded from the language file under the key {@link LanguageKeys#MESSAGE_TITLE_WARNING}
+     * @param header  the header of the message can be null
      * @param content the body of the message can be null
-     * @param owner the owner of the message, if not null, the message will have the same node orientation of the owner
+     * @param owner   the owner of the message, if not null, the message will have the same node orientation of the owner
      */
     public static void showWarningMessage(String title, String header, String content, SimpleController owner) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
+
+        alert.getDialogPane().getScene().getStylesheets().addAll(ControlMaster.getControlMaster().getCSSes());
         if (owner.getRoot() != null) {
             alert.dialogPaneProperty().get().setNodeOrientation(owner.getRoot().getNodeOrientation());
-            alert.initOwner(owner.getStage());
+            if (owner.getStage() != null)
+                alert.initOwner(owner.getStage());
         }
         if (title == null)
             title = ControlMaster.getControlMaster().getLanguage().getString("MESSAGE.TITLE.WARNING");

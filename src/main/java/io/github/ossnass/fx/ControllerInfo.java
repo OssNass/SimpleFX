@@ -52,22 +52,30 @@ public @interface ControllerInfo {
     /**
      * A string representing the path to the FXML GUI file location with in the application resources folder.
      *
-     * @return
+     * @return A string representing the path to the FXML GUI file location with in the application resources folder.
      */
     String FXMLFile();
 
     /**
      * The type of the controller, used to determine how to load it.
      *
-     * @return
+     * @return The type of the controller
      */
     ContollerType Type() default ContollerType.SINGLE_INSTANCE_ON_DEMAND;
 
     /**
-     * The name of the icon in the resources dir for the stage
+     * The name of the icon in the resources dir for the stage, has to be resource bound.
      *
      * Optional.
-     * @return
+     * @return The name of the icon in the resources dir for the stage
      */
     String Icon() default "";
+
+    /**
+     * If you have a special CSS for this controller, has to be resource bound.
+     *
+     * Optional
+     * @return a special CSS for this controller, empty string if otherwise
+     */
+    String CSS() default "";
 }

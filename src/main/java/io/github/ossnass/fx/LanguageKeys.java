@@ -24,23 +24,57 @@
 
 package io.github.ossnass.fx;
 
+/**
+ * This interface provides a set of keys that must be present in every language file used by this library.
+ */
 public interface LanguageKeys {
+    /**
+     * The template for stage title key in the language file
+     * <p>
+     * Used with {@link String#format(String, Object...) to format correctly the title of the stage using the {@link ControllerInfo#Id()}}
+     * value to identify
+     */
     String LANG_STAGE_TITLE = "STAGE.%s.TITLE";
 
+    /**
+     * The key of the language name
+     */
     String LANG_NAME = "LANG.NAME";
 
+    /**
+     * The key of the language short name
+     */
     String LANG_SHORT = "LANG.SHORT";
 
+    /**
+     * The key of the language name of country short key
+     */
     String LANG_COUNTRY_SHORT = "LANG.COUNTRY";
 
+    /**
+     * The key for the direction of the language
+     * <p>
+     * must be <b>LTR</b> for left to right languages, or <b>RTL</b> for right to left languages
+     */
     String LANG_LAYOUT_DIRECTION = "LANG.DIR";
 
+    /**
+     * The error message title key
+     */
     String MESSAGE_TITLE_ERROR = "MESSAGE.TITLE.ERROR";
-
+    /**
+     * The warning message title key
+     */
     String MESSAGE_TITLE_WARNING = "MESSAGE.TITLE.WARNING";
 
+    /**
+     * The info message title key
+     */
     String MESSAGE_TITLE_INFO = "MESSAGE.TITLE.INFO";
 
+    /**
+     * The confirm dialogue title key
+     */
     String MESSAGE_TITLE_CONFIRM = "MESSAGE.TITLE.CONFIRM";
 }
 

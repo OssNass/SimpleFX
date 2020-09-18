@@ -23,6 +23,9 @@
  */
 package io.github.ossnass.fx;
 
+import io.github.ossnass.fx.exceptions.NotAnnotatedException;
+import io.github.ossnass.fx.keyboard.KBSManager;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.geometry.NodeOrientation;
 import javafx.scene.Scene;
@@ -30,12 +33,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import io.github.ossnass.fx.keyboard.KBSManager;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.nio.file.Path;
 import java.util.ResourceBundle;
 
 /**
@@ -46,7 +44,7 @@ import java.util.ResourceBundle;
  * <p>
  * In order to add some of your own initialization code override {@link SimpleController#userInit()}
  * <p>
- * In order to get the stage an icon, please assign a value to the field {@link SimpleController#icon}
+ * In order to get the stage an icon, please assign a value to the field {@link ControllerInfo#Icon()}
  * <p>
  * In order to set the title to the stage,
  * please add a line in the language line with key "STAGE.FXML file name without extension.TITLE"
@@ -78,17 +76,23 @@ public abstract class SimpleController {
      * The stage where everything is shown, please use (@link {@link SimpleController#setStage(Stage)}
      */
     protected Stage stage;
+    /**
+     * The info annotation of this controller
+     */
+    protected ControllerInfo info;
 
     /**
-     * The icon of the stage, can be null
+     * Creates a new simple contoller
      */
-    protected String icon;
-
-    protected String Id;
+    public SimpleController() {
+        if (!this.getClass().isAnnotationPresent(ControllerInfo.class))
+            throw new NotAnnotatedException(getClass().getName());
+        info = getClass().getAnnotation(ControllerInfo.class);
+    }
 
     @FXML
     void initialize() {
-        //crucial for RTL languages
+        //critical for RTL languages
         if (this.resources.getString("LANG.DIR").equalsIgnoreCase("RTL")) {
             this.root.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
         } else {
@@ -100,19 +104,11 @@ public abstract class SimpleController {
 
     /**
      * Return the Id of the FXML file
+     *
      * @return the Id of the FXML file
      */
     public String getId() {
-        return Id;
-    }
-
-    /**
-     * Changes the Id of the fxml file
-     * Must not be called by the user
-     * @param id the new Id of the fxml file
-     */
-    void setId(String id) {
-        Id = id;
+        return info.Id();
     }
 
     /**
@@ -146,9 +142,12 @@ public abstract class SimpleController {
         this.scene = scene;
         if (this.scene != null) {
             this.scene.setRoot(root);
-            if (ControlMaster.getControlMaster().getCSSPath() != null) {
-                scene.getStylesheets().add(ControlMaster.getControlMaster().getCSSPath());
+            if (!ControlMaster.getControlMaster().getCSSes().isEmpty()) {
+                ControlMaster.getControlMaster().getCSSes().forEach(url -> scene.getStylesheets().add(url));
             }
+            if (!info.CSS().isEmpty())
+                scene.getStylesheets().add(info.CSS());
+            ControlMaster.getControlMaster().addChangeListener(this::onChanged);
         }
         if (this.stage != null)
             stage.setScene(this.scene);
@@ -175,6 +174,7 @@ public abstract class SimpleController {
         if (stage == null) {
             this.stage.setScene(null);
             this.stage.setOnShown(null);
+            this.stage.setOnHidden(null);
         }
         this.stage = stage;
         if (this.stage != null) {
@@ -183,12 +183,14 @@ public abstract class SimpleController {
             //fixes a bug where the stage size is not calculated properly,
             // because nodes sizes are only calculated when they are shown on the screen
             this.stage.setOnShown(this::stageOnShow);
+            this.stage.setOnHidden(this::onStageCloseUser);
             this.stage.setScene(this.scene);
         }
     }
 
     /**
      * This function is used as an event handler to fix a problem when showing the stage and the size is wrong
+     *
      * @param event the window event
      */
     private void stageOnShow(WindowEvent event) {
@@ -196,30 +198,40 @@ public abstract class SimpleController {
             this.stage.sizeToScene();
             this.stage.setWidth(this.stage.getWidth());
             this.stage.setHeight(this.stage.getHeight());
-            onStageShowUser();
         }
+        onStageShowUser();
+    }
+
+
+    private void stageOnClose(WindowEvent event) {
+        if (info.Type() == ContollerType.MULTIPLE_INSTANCE)
+            ControlMaster.getControlMaster().removeChangeListener(this::onChanged);
+        onStageCloseUser(event);
+    }
+
+    /**
+     * Must be overridden by the user to implement there own code that execute when the stage is closed.
+     * <p>
+     * Only called when there is a stage to close
+     */
+    protected void onStageCloseUser(WindowEvent event) {
+
     }
 
     private void setTitle() {
-        String titleKey = String.format("STAGE.%s.TITLE", Id);
+        String titleKey = String.format("STAGE.%s.TITLE", getId());
         if (this.resources.containsKey(titleKey))
             stage.setTitle(this.resources.getString(titleKey));
     }
 
     private void loadIcon() {
-        if (this.icon != null) {
+        if (this.info.Icon() != null) {
             try {
-                this.stage.getIcons().add(new Image(ControlMaster.getResourceAsInputStream(this.icon)));
+                this.stage.getIcons().add(new Image(ResourceManager.getURL(this.info.Icon()).toExternalForm()));
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-    }
-
-    void setIcon(String icon) {
-        if (icon==null || icon.isEmpty())
-            icon = null;
-        this.icon = icon;
     }
 
     /**
@@ -229,8 +241,28 @@ public abstract class SimpleController {
 
     /**
      * Must be overridden by the user to implement there own code that execute when the stage is shown.
-     *
+     * <p>
      * Only called when there is a stage to show
      */
-    protected void onStageShowUser(){};
+    protected void onStageShowUser() {
+    }
+
+
+    /**
+     * Used to track changes in the css list
+     * <p>
+     * *********************************
+     * *<b>MUST NOT BE USED BY USER</b>*
+     * *********************************
+     *
+     * @param c the change in the css list
+     */
+    void onChanged(ListChangeListener.Change<? extends String> c) {
+        while (c.next()) {
+            if (c.wasAdded())
+                c.getAddedSubList().forEach(url -> scene.getStylesheets().add(url));
+            else if (c.wasRemoved())
+                c.getRemoved().forEach(url -> scene.getStylesheets().remove(url));
+        }
+    }
 }
