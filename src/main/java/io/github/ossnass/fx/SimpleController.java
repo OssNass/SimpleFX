@@ -225,7 +225,7 @@ public abstract class SimpleController {
     }
 
     private void loadIcon() {
-        if (this.info.Icon() != null) {
+        if (!(this.info.Icon() == null || this.info.Icon().isEmpty())) {
             try {
                 this.stage.getIcons().add(new Image(ResourceManager.getURL(this.info.Icon()).toExternalForm()));
             } catch (Exception e) {

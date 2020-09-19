@@ -50,7 +50,7 @@ public class InitOnceStartup extends SimpleController {
     }
     @Override
     protected void userInit() {
-
+        System.out.println(this.info.Icon()+" icon");
     }
 
     protected void onStageShowUser() {

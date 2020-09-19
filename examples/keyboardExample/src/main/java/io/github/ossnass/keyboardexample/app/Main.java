@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-        ControlMaster.getControlMaster().initControlMaster("en-us.lang", null);
+        ControlMaster.getControlMaster().initControlMaster("en-us.lang");
         SimpleController kbmain=ControlMaster.getControlMaster().getController("KBEMain");
         kbmain.setStage(stage);
         stage.setResizable(false);

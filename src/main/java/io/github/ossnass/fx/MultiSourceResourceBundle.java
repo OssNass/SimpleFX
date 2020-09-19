@@ -1,6 +1,6 @@
 package io.github.ossnass.fx;
 
-import sun.util.ResourceBundleEnumeration;
+
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -133,8 +133,10 @@ public class MultiSourceResourceBundle extends ResourceBundle {
      */
     @Override
     public Enumeration<String> getKeys() {
-        ResourceBundle parent = this.parent;
-        return new ResourceBundleEnumeration(values.keySet(),
-                (parent != null) ? parent.getKeys() : null);
+
+        Vector<String> res=new Vector<>(values.keySet());
+        if(this.parent!=null)
+           this.parent.getKeys().asIterator().forEachRemaining(key->res.addElement(key));
+        return res.elements();
     }
 }
