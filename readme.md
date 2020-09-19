@@ -12,9 +12,12 @@ The main reason behind that approach is to allow a balance between memory usage 
 
 In order to utilize this feature you need to extend the `SimpleController` class and annotate it with `ControllerInfo` annotation in which you need to specify a unique string ID and the full absolute path to the FXML in the project resources at least.
 
-This library is built and tested on Java 8, and Java 9+.
+This library is built and tested on Java 8, and Java 11+.
 
 For examples you can see [examples](examples) folder.
+
+
+PLEASE BE AWARE THAT AS OF VERSION 0.4 JAVA 8 SUPPORT IS DEPRECATED AND WILL RECEIVE NO MORE UPDATES, WILL WITH JAVA 11+ FROM VERSION 0.5-11 ONWARDS 
 
 In order to use it in your project please import using Maven:
 
@@ -22,14 +25,14 @@ In order to use it in your project please import using Maven:
 <dependency>
     <groupId>io.github.ossnass</groupId>
     <artifactId>simplefx</artifactId>
-    <version>0.3</version>
+    <version>0.4</version>
 </dependency>
 ```
 
 or in Gradle:
 
 ```
-compile group: 'io.github.ossnass', name: 'simplefx', version: '0.3'
+compile group: 'io.github.ossnass', name: 'simplefx', version: '0.4'
 ```
 
 If you are using Java 11+ please use the following
@@ -38,12 +41,12 @@ If you are using Java 11+ please use the following
 <dependency>
     <groupId>io.github.ossnass</groupId>
     <artifactId>simplefx</artifactId>
-    <version>0.3-11</version>
+    <version>0.5-11</version>
 </dependency>
 ```
 
 or in Gradle:
 
 ```
-compile group: 'io.github.ossnass', name: 'simplefx', version: '0.3-11'
+compile group: 'io.github.ossnass', name: 'simplefx', version: '0.5-11'
 ```
