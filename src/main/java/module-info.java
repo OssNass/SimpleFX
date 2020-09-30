@@ -6,4 +6,5 @@ module simplefx {
     exports io.github.ossnass.fx.exceptions;
     exports io.github.ossnass.fx.keyboard;
     exports io.github.ossnass.fx.settings;
+    opens io.github.ossnass.fx to javafx.fxml;
 }
